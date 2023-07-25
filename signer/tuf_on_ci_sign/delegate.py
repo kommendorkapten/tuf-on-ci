@@ -146,7 +146,10 @@ def _get_online_input(config: OnlineConfig, user_config: SignerConfig) -> Online
     config = copy.deepcopy(config)
     click.echo("\nConfiguring online roles")
     while True:
-        keyuri = config.keys[0].unrecognized_fields["x-tuf-on-ci-online-uri"]
+        try:
+            keyuri = config.keys[0].unrecognized_fields["x-tuf-on-ci-online-uri"]
+        except KeyError:
+            keyuri = config.keys[0].unrecognized_fields["x-playground-online-uri"]
         click.echo(f" 1. Configure online key: {keyuri}")
         click.echo(
             f" 2. Configure timestamp: Expires in {config.timestamp_expiry} days,"
